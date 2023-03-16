@@ -1,142 +1,85 @@
 <template>
-    <b-row class="vh-100 vw-100 row-login">
-        <b-col sm="5" class="d-flex justify-content-center align-items-center left-login">
-            <div class="col-8">
-                <h2 class="text-center mb-5 title-login">Faça o login</h2>
-  
-                <b-form> 
-                    <b-form-group
-                        label="E-mail"
-                        label-for="email"
-                        >
-                        <b-form-input
-                            id="email"
-                            type="email"
-                            placeholder="nome@gmail.com"
-                            autocomplete="off"
-                            v-model.trim="$v.form.email.$model"
-                            :state="getValidation('email')"
-                        ></b-form-input>
-                    </b-form-group>
+    <div>
+        <img src="static/Login.svg">
+        <div class="login">
+            <h2 class="text-center mb-5 title-login">Faça o login</h2>
+            <b-form @submit="onLogin">
+                <b-form-group
+                    id="user-label"
+                    label="Email:"
+                    label-for="user-input"
+                    description="We'll never share your email with anyone else."
+                >
+                    <b-form-input
+                        id="user-input"
+                        v-model="login.user"
+                        type="email"
+                        placeholder="Enter email"
+                        required
+                    ></b-form-input>
+                </b-form-group>
 
-                    <b-form-group
-                    label="Senha"
-                    label-for="password"
-                    >
-                    <label class="d-flex justify-content-between">
-                        Senha
-                        <small><a href="#">Esqueceu sua senha?</a></small>
-                    </label>
-                        <b-form-input
-                            id="password"
-                            type="password"
-                            placeholder="Digite sua senha"
-                            v-model.trim="$v.form.password.$model"
-                            :state="getValidation('password')"
-                        ></b-form-input>
-                    </b-form-group>
-  
-                    <b-button
-                        type="button"
-                        variant="primary"
-                        block
-                        @click="login">
-                        <i class="fas fa-sign-in-alt"></i> Entrar
-                    </b-button>
-  
-                    <hr>
-  
-                    <b-button
-                        type="button"
-                        variant="outline-secondary"
-                        block
-                        @click="register">
-                        <i class="fas fa-user-plus"></i> Não tenho conta
-                    </b-button>
-                </b-form>
-            </div>
-        </b-col>
-        <b-col sm="7" class="d-flex justify-content-center align-items-center">
-            <img src="../static/login.svg" class="img-login" />
-        </b-col>
-    </b-row>
-  </template>
-  
-  <script>
-  import { required, minLength, email } from "vuelidate/lib/validators";
-  
-  export default {
-    data() {
-      return {
-        form: {
-          email: "",
-          password: ""
-        }
-      }
+                <b-form-group
+                    id="password-label"
+                    label="Senha:"
+                    label-for="password-input"
+                    description="Coloque a senha."
+                >
+                    <b-form-input
+                        id="password-input"
+                        v-model="login.pwd"
+                        type="senha"
+                        placeholder="Coloque a senha"
+                        required
+                    ></b-form-input>
+                </b-form-group>
+
+                <b-button type="submit">Entrar</b-button>
+            </b-form>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "Login",
+    data(){
+        return{
+            login:{
+                user:"user@email.com",
+                pwd:"123"
+            }
+        };
     },
-  
-    validations: {
-      form: {
-        email: {
-          required,
-          email
-        },
-  
-        password: {
-          required,
-          minLength: minLength(6)
-        },
-      }
-    },
-  
-    methods: {
-      login() {
-        this.$v.$touch();
-        if(this.$v.$error) {
-          return;
+
+    methods:{
+        doLogin(){
+            let dataLogin = {
+                user: this.login.user,
+                pwd: this.login.pwd
+            };
+            this.$http.post("/api/login", dataLogin).then(response=> {
+                dataLogin = {}
+                console.log(response.data);
+                this.$router.push("/");
+            })
+            .catch(errors=>{
+                console.error("Falha no login")
+                console.log(errors)
+            });
         }
-      },
-  
-      register() {},
-  
-      getValidation(field) {
-        if(this.$v.form.$dirty === false) {
-          return null;
-        }
-  
-        return !this.$v.form[field].$error;
-      }
     }
-  }
-  </script>
-  
-  <style>
-  
-  *,
-  *::after,
-  *::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-  }
-  
-  .row-login {
-    margin-left: 0;
-  }
-  
-  .left-login {
-    background-color: #F2F2F2;
-  }
-  
-  .title-login {
-    font-weight: bold;
-  }
-  
-  .img-login {
-    width: 600px;
-    height: 600px;
-  }
-  
-  </style>
-  
+};
+</script>
+
+<style>
+    .title-login {
+        font-weight: bold;
+    }
+    .login{
+        margin: 50px 350px 0px 350px;
+        padding: 50px 50px 20px 50px;
+        border-radius: 30px;
+        background-color: aquamarine;
+    }
+</style>

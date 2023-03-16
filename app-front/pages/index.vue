@@ -13,7 +13,7 @@
       <li>Click the links to see client side rendering.</li>
     </ul>
 
-    <NuxtLink to="/login">Log in</NuxtLink>
+    <NuxtLink to="/Login">Log in</NuxtLink>
 
   </div>
 </template>
