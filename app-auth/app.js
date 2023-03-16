@@ -51,7 +51,7 @@ passport.use(
 app.use(passport.initialize());
 app.use(passport.session());
 //Configuração dos middlewares
-app.use(cors({credentials: true, origin: "http://localhost:3000/"}));
+app.use(cors({credentials: true, origin: "http://localhost:3000"}));
 
 app.post("/api/login", (request,response,next)=>{
     passport.authenticate("local", (err,user,info)=>{
@@ -70,10 +70,10 @@ app.listen("3030",(request,response)=>{
 });
 
 //Configuração das rotas da API
-//app.get("/", (req, res) =>{
-//    res.send("Express server");
-//    res.end();
-//});
+app.get("/", (req, res) =>{
+    res.send("Express server");
+    res.end();
+});
 
 //Exporta o aplicativo express configurado
-//module.exports = app;
+module.exports = app;

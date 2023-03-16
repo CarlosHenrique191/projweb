@@ -1,14 +1,14 @@
 <template>
-    <div>
-        <img src="static/Login.svg">
-        <div class="login">
-            <h2 class="text-center mb-5 title-login">Faça o login</h2>
-            <b-form @submit="onLogin">
+    <b-row class="vh-100 vw-100 row-login">
+        <b-col sm="5" class="d-flex justify-content-center align-items-center left-login">
+            <div class="login">
+                <h2 class="text-center mb-5 title-login">Faça o login</h2>
+  		        <b-form @submit="doLogin">
                 <b-form-group
                     id="user-label"
                     label="Email:"
                     label-for="user-input"
-                    description="We'll never share your email with anyone else."
+                    description="Nunca iremos dar sua senha a terceiros"
                 >
                     <b-form-input
                         id="user-input"
@@ -28,17 +28,21 @@
                     <b-form-input
                         id="password-input"
                         v-model="login.pwd"
-                        type="senha"
+                        type="password"
                         placeholder="Coloque a senha"
                         required
                     ></b-form-input>
                 </b-form-group>
 
                 <b-button type="submit">Entrar</b-button>
-            </b-form>
-        </div>
-    </div>
-</template>
+                </b-form>
+            </div>
+        </b-col>
+        <b-col sm="7" class="d-flex justify-content-center align-items-center">
+            <img src="../static/Login.svg"/>
+        </b-col>
+    </b-row>
+  </template>
 
 <script>
 export default {
@@ -73,13 +77,29 @@ export default {
 </script>
 
 <style>
-    .title-login {
-        font-weight: bold;
-    }
-    .login{
-        margin: 50px 350px 0px 350px;
-        padding: 50px 50px 20px 50px;
-        border-radius: 30px;
-        background-color: aquamarine;
-    }
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+  
+.row-login {
+    margin-left: 0;
+}
+  
+.left-login {
+    background-color: #F2F2F2;
+}
+  
+.title-login {
+    font-weight: bold;
+}
+  
+.img-login {
+    width: 600px;
+    height: 600px;
+}
 </style>
